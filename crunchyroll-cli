@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: mpv, wget, devour (optional - for window swallowing), youtube-dl, a menu application (recommended: fzf or dmenu or rofi)
+
+# TODO:
+# * watch lists
+# * view front page
+# * premium content (with streamlink)
+# * bulk downloading
+# * use external downloader (e.g. aria2c or axel)
+# * read Crunchyroll manga??
+# * usage (help page)
+
+command -v devour >/dev/null && swallow='devour'
+command -v devour >/dev/null || swallow='setsid -f'
+final="$(echo "${@: -1}")"
+
+play () {
+    chosen="$(cut -d'"' -f4 "/tmp/crunchyroll_episodes.txt" | $menu)"
+    url="https://crunchyroll.com$(grep -w "$chosen" "/tmp/crunchyroll_episodes.txt" | cut -d'"' -f2 | tail -n 1)" # tail is used in case there are multiple episodes with the same number (for example OVAs or OADs)
+    [ -n "$download" ] && youtube-dl "$url" && echo "Episode successfully downloaded." ; exit 0 # download episode and exit if `-d` is passed
+    $swallow mpv "$url" "$sub"
+    exit 0
+}
+
+while getopts 'hds:l:e:m:' OPT; do
+  case $OPT in
+    h)  # help
+        usage # currently there is no usage; I will create this later
+        exit 0 ;;
+    d)  # download
+        download=1 ;;
+    s)  # subtitles
+        sub="--slang="$OPTARG"" ;;
+    l)  # list available subtitles
+        printf 'Crunchyroll-cli\n\nAvailable subtitle languages:\narME\ndeDE\nenUS\nesES\nesLA\nfrFR\nitIT\nptBR\nruRU\n' ; exit 0 ;;
+    e)  # exact episode (by default, crunchyroll-cli assumes that the link is the entire series)
+        $swallow mpv "$OPTARG" "$sub" >/dev/null
+        exit 0 ;;
+    m)  # menu
+        case "$OPTARG" in
+            dmenu)  menu='dmenu -i -l 20' ;;
+            rofi)   menu='rofi -dmenu -i -l 20' ;;
+            fzf)    menu='fzf' ;;
+            *)      menu="$OPTARG"
+        esac ;;
+    *)  echo "error: insert usage here" && exit 0
+  esac
+done
+
+[ -n "$menu" ] || menu='fzf' # if no menu is set then set it to be fzf
+
+# if the searched argument contains 'https://' then show a menu of episodes to select, otherwise provide Crunchyroll's search results and then pick from there (and then select an episode)
+echo "$final" | grep 'https://' >/dev/null || ( wget -qO- robots=off -U mozilla --no-dns-cache --no-cache "https://www.crunchyroll.com/search?from=&q="$final"" | grep '<span class="type">' \
+    | sed -e 's/<span class="type">//g' -e 's/[ \t]*//' > "/tmp/crunchyroll_episodes.txt" && cat "/tmp/crunchyroll_episodes.txt" | $menu | awk '{$1=$1};1' | sed 's/ /-/g' \
+    | xargs -I{} wget -qO- robots=off -U mozilla --no-dns-cache --no-cache "https://crunchyroll.com/{}" | grep "href" | grep "Episode" > "/tmp/crunchyroll_episodes.txt" && play )
+    echo "$final" | grep 'https://' >/dev/null && ( wget -qO- robots=off -U mozilla --no-dns-cache --no-cache "$final" | grep "href" | grep "Episode" > "/tmp/crunchyroll_episodes.txt" && play )
