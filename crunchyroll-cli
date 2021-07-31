@@ -19,8 +19,8 @@ final="$(echo "${@: -1}")"
 play () {
     chosen="$(cut -d'"' -f4 "/tmp/crunchyroll_episodes.txt" | $menu)"
     url="https://crunchyroll.com$(grep -w "$chosen" "/tmp/crunchyroll_episodes.txt" | cut -d'"' -f2 | tail -n 1)" # tail is used in case there are multiple episodes with the same number (for example OVAs or OADs)
-    [ -n "$download" ] && youtube-dl "$url" && echo "Episode successfully downloaded." ; exit 0 # download episode and exit if `-d` is passed
-    $swallow mpv "$url" "$sub"
+    [ -z "$download" ] || ( youtube-dl "$url" && echo "Episode successfully downloaded." ) # download episode and exit if `-d` is passed
+    [ -z "$download" ] && ( $swallow mpv "$url" "$sub" >/dev/null)
     exit 0
 }
 
