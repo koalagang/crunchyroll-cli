@@ -1,6 +1,6 @@
 # Crunchyroll CLI
 
-A CLI tool for browsing and playing anime from [Crunchyroll].
+A CLI tool for browsing and playing anime from [Crunchyroll](https://www.crunchyroll.com).
 
 ## Dependencies
 
@@ -13,8 +13,7 @@ A CLI tool for browsing and playing anime from [Crunchyroll].
 
 ## Installation
 
-Before using any of the following installation methods, make sure to download the above listed dependencies with your package manager.
-'Make' is the recommended option because you can easily update by doing a simple `git pull` on your local repository. For Arch [based] users, I may also consider submiting Crunchyroll CLI to the [AUR](https://aur.archlinux.org/) at some point.
+Before using any of the following installation methods, make sure to download the above listed dependencies with your package manager. 'Make' is the recommended option because you can easily update by doing a simple `git pull` on your local repository. For Arch [based] users, I may also consider submiting Crunchyroll CLI to the [AUR](https://aur.archlinux.org/) at some point.
 
 ### cURL
 
@@ -86,12 +85,12 @@ Report bugs at https://github.com/koalagang/crunchyroll-cli/issues
 
 ## TODO
 
-* watch lists
-* view front page
-* choose quality
-* bulk downloading (youtube-dl --batch-file?)
-* read Crunchyroll manga??
-* possibly other anime sites (a bit like youtube-dl's extractors)??
+[ ] watch lists
+[ ] view front page
+[ ] choose quality
+[ ] bulk downloading (youtube-dl --batch-file?)
+[ ] read Crunchyroll manga??
+[ ] possibly other anime sites (a bit like youtube-dl's extractors)??
 
 ## Note on Crunchyroll beta site
 
