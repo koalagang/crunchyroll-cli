@@ -85,12 +85,12 @@ Report bugs at https://github.com/koalagang/crunchyroll-cli/issues
 
 ## TODO
 
-[ ] watch lists
-[ ] view front page
-[ ] choose quality
-[ ] bulk downloading (youtube-dl --batch-file?)
-[ ] read Crunchyroll manga??
-[ ] possibly other anime sites (a bit like youtube-dl's extractors)??
+* watch lists
+* view front page
+* choose quality
+* bulk downloading (youtube-dl --batch-file?)
+* read Crunchyroll manga??
+* possibly other anime sites (a bit like youtube-dl's extractors)??
 
 ## Note on Crunchyroll beta site
 
