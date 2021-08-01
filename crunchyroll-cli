@@ -1,51 +1,52 @@
 #!/usr/bin/env bash
 
 # AUTHOR: koalagang (https://github.com/koalagang)
-# Dependencies: mpv, wget, devour (optional - for window swallowing), youtube-dl, a menu application (recommended: fzf or dmenu or rofi)
-
-# TODO:
-# * watch lists
-# * view front page
-# * premium content (with streamlink)
-# * bulk downloading (youtube-dl --batch-file?)
-# * read Crunchyroll manga??
-# * possibly other anime sites??
+# See Crunchyroll CLI's Github repo at https://github.com/koalagang/crunchyroll-cli
 
 # print a usage statement and exit if no argument is passed
 [ -z "$1" ] && printf 'Crunchyroll CLI\n\nusage: crunchyroll-cli [OPTIONS] "<anime>"\nTry `crunchyroll-cli -h` for more options.\n' && exit 0
 
-command -v devour >/dev/null && swallow='devour'
-command -v devour >/dev/null || swallow='setsid -f'
+version='v1.2'
 final="$(echo "${@: -1}")"
+# if devour is installed then use it to swallow the terminal when launching mpv, otherwise just fork mpv from the terminal when playing
+command -v devour >/dev/null && swallow='devour' || swallow='setsid -f'
 
 play () {
     chosen="$(cut -d'"' -f4 "/tmp/crunchyroll_episodes.txt" | $menu)"
     # tail is used in case there are multiple episodes with the same number (for example if there is episode 1 of the season 1 and episode 1 of the OVA)
     url="https://crunchyroll.com$(grep -w "$chosen" "/tmp/crunchyroll_episodes.txt" | cut -d'"' -f2 | tail -n 1)"
+    echo "$url"
     [ -n "$download" ] && youtube-dl "$url" && echo "Episode successfully downloaded." # download episode and exit if `-d` is passed
-    [ -n "$download" ] || $swallow mpv "$url" "$sub" >/dev/null
-    exit 0
+    [ -n "$premium" ] && printf 'Enter crunchyroll username: ' && read -r username && streamlink "$url" best --player mpv $streamlink_sub --crunchyroll-username "$username" --crunchyroll-password '' && exit 1
+    [ -n "$download" ] || mpv $mpv_sub "$url" >/dev/null
+    exit 1
 }
 
-while getopts 'hds:lem:p' OPT; do
+while getopts 'hds:lpe:m:v' OPT; do
   case $OPT in
-      h)  printf 'Crunchyroll CLI\n\nusage: crunchyroll-cli [OPTIONS] "<anime>"\n\n\tIn the <anime> field, you may pass the link to a series or perform a fuzzy search.\n\tNote that, when performing a search, it is necessary to use apostrophes or quotation marks otherwise you could end up with something like this:\n\t`crunchyroll-cli that time` would only search for `time` and not `that time`\n\n\tBelow are examples of the correct usage.\n\texample: crunchyroll-cli "that time"\n\texample: crunchyroll-cli "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"\n\n\t-h\tprint this help statement and exit\n\n\t-d\tdownload instead of streaming\n\n\t-s\tshow subtitles in your chosen language (if not specified, no subtitles are shown)\n\t\texample: crunchyroll-cli -s enUS "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"\n\n\t-l\tlist available subtitle languages and exit\n\n\t-e\tplay exact episode (by default, Crunchyroll CLI assumes that the link is the entire series)\n\t\texample: crunchyroll-cli -e "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime/episode-40-the-congress-dances-814679"\n\n\t-m\tspecify menu application to use (if not specified, fzf is used)\n\t\tyou can use any software which can be piped into and out of and used as a menu but it is recommended that you choose between dmenu, rofi and fzf\n\t\texample: crunchyroll-cli -m dmenu "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"\n\n\t-p\tprint a list of the dependencies and exit\n'
-        exit 0 ;;
-    d)  download=1 ;;
-    s)  sub="--slang="$OPTARG"" ;;
+      h)  printf 'Crunchyroll CLI\n\nDependencies: mpv, wget, devour (optional - for window swallowing), youtube-dl (optional - for downloading episodes), a menu application (recommended: fzf or dmenu or rofi), streamlink (optional\n- for premium content)\n'
+          printf '\nusage: crunchyroll-cli [OPTIONS] "<anime>"\n\n\tIn the <anime> field, you may pass the link to a series or perform a fuzzy search (see `-e` flag for exact episodes).\n\tNote that, when performing a search, it is necessary to use apostrophes or quotation marks otherwise you could end up with something like this:\n\t`crunchyroll-cli that time` would only search for `time` and not `that time`\n\n\tBelow are examples of the correct usage.\n\texample: crunchyroll-cli "that time"\n\texample: crunchyroll-cli "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"\n\n\tAlso note that if you are passing an argument into a flag, then order may matter:\n\t`crunchyroll-cli -pe "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime/episode-40-the-congress-dances-814679"` would work but\n\t`crunchyroll-cli -ep "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime/episode-40-the-congress-dances-814679"` would not work because the link is supposed to be passed into\n\tthe `-e` flag.\n\n\tAvailable flags:\n\n\t-h\tprint this help statement and exit\n\n\t-d\tdownload instead of streaming\n\n\t-s\tshow subtitles in your chosen language (if not specified, no subtitles are shown)\n\t\texample: crunchyroll-cli -s enUS "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"\n\n\t-l\tlist available subtitle languages and exit\n\n\t-p\tplay premium content (requires signing into a premium Crunchyroll account - you will be prompted with username and password fields)\n\t\tNote that you cannot download premium content.\n\n\t-e\tplay exact episode (by default, Crunchyroll CLI assumes that the link is the entire series)\n\t\texample: crunchyroll-cli -e "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime/episode-1-the-storm-dragon-veldora-777519"\n\n\t-m\tspecify menu application to use (if not specified, fzf is used)\n\t\tyou can use any software which can be piped into and out of and used as a menu but it is recommended that you choose between dmenu, rofi and fzf\n\t\texample: crunchyroll-cli -m dmenu "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"\n\n\t-v\tprint your Crunchyroll CLI version and exit\n\nReport bugs at https://github.com/koalagang/crunchyroll-cli/issues\n'
+        exit 1 ;;
+    d)  [ -n "$premium" ] && printf "erorr: you can't download premium content\n\nRemove the '-d' flag to be able to stream premium content.\nIf you wish to download free content then remove the '-p' flag.\n" && exit 0
+        download=1 ;;
+    s)  mpv_sub="--slang="$OPTARG""
+        streamlink_sub="--locale ${OPTARG:0:2}_${OPTARG:2}" ;;
     l)  printf 'Crunchyroll-cli\n\nAvailable subtitle languages:\narME\ndeDE\nenUS\nesES\nesLA\nfrFR\nitIT\nptBR\nruRU\n' ; exit 0 ;;
-    e)  $swallow mpv "$OPTARG" "$sub" >/dev/null
-        exit 0 ;;
+    p)  [ -n "$download" ] && printf "erorr: you can't download premium content\n\nRemove the '-d' flag to be able to stream premium content.\nIf you wish to download free content then remove the '-p' flag.\n" && exit 0
+        premium=1 ;;
+    e)  [ -n "$download" ] && youtube-dl "$OPTARG" && echo "Episode successfully downloaded."
+        [ -n "$premium" ] && printf 'Enter crunchyroll username: ' && read -r username && streamlink "$OPTARG" best --player mpv $streamlink_sub --crunchyroll-username "$username" --crunchyroll-password '' && exit 1
+        exit 1 ;;
     m)
         case "$OPTARG" in
             dmenu)  menu='dmenu -i -l 20' ;;
             rofi)   menu='rofi -dmenu -i -l 20' ;;
             *)      menu="$OPTARG"
         esac ;;
-    p)  printf 'Crunchyroll CLI\n\nDependencies: mpv, wget, youtube-dl, devour (optional - for window swallowing), a menu application (recommended: dmenu, rofi or fzf)\n'
-        exit 0 ;;
+    v)  echo "Crunchyroll CLI version: "$version""
+        exit 1 ;;
     *)  printf '\nCrunchyroll CLI\n\nusage: crunchyroll-cli [OPTIONS] "<anime>"\nTry `crunchyroll-cli -h` for more options.\n'
-        exit 0
+        exit 1
   esac
 done
 
