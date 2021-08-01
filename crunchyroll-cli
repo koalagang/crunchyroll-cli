@@ -7,10 +7,12 @@
 # * watch lists
 # * view front page
 # * premium content (with streamlink)
-# * bulk downloading
-# * use external downloader (e.g. aria2c or axel)
+# * bulk downloading (youtube-dl --batch-file?)
 # * read Crunchyroll manga??
-# * usage (help page)
+# * possibly other anime sites??
+
+# print a usage statement and exit if no argument is passed
+[ -z "$1" ] && printf 'Crunchyroll CLI\n\nusage: crunchyroll-cli [OPTIONS] "<anime>"\nTry `crunchyroll-cli -h` for more options.\n' && exit 0
 
 command -v devour >/dev/null && swallow='devour'
 command -v devour >/dev/null || swallow='setsid -f'
@@ -18,34 +20,32 @@ final="$(echo "${@: -1}")"
 
 play () {
     chosen="$(cut -d'"' -f4 "/tmp/crunchyroll_episodes.txt" | $menu)"
-    url="https://crunchyroll.com$(grep -w "$chosen" "/tmp/crunchyroll_episodes.txt" | cut -d'"' -f2 | tail -n 1)" # tail is used in case there are multiple episodes with the same number (for example OVAs or OADs)
-    [ -z "$download" ] || ( youtube-dl "$url" && echo "Episode successfully downloaded." ) # download episode and exit if `-d` is passed
-    [ -z "$download" ] && ( $swallow mpv "$url" "$sub" >/dev/null)
+    # tail is used in case there are multiple episodes with the same number (for example if there is episode 1 of the season 1 and episode 1 of the OVA)
+    url="https://crunchyroll.com$(grep -w "$chosen" "/tmp/crunchyroll_episodes.txt" | cut -d'"' -f2 | tail -n 1)"
+    [ -n "$download" ] && youtube-dl "$url" && echo "Episode successfully downloaded." # download episode and exit if `-d` is passed
+    [ -n "$download" ] || $swallow mpv "$url" "$sub" >/dev/null
     exit 0
 }
 
-while getopts 'hds:l:e:m:' OPT; do
+while getopts 'hds:lem:p' OPT; do
   case $OPT in
-    h)  # help
-        usage # currently there is no usage; I will create this later
+      h)  printf 'Crunchyroll CLI\n\nusage: crunchyroll-cli [OPTIONS] "<anime>"\n\n\tIn the <anime> field, you may pass the link to a series or perform a fuzzy search.\n\tNote that, when performing a search, it is necessary to use apostrophes or quotation marks otherwise you could end up with something like this:\n\t`crunchyroll-cli that time` would only search for `time` and not `that time`\n\n\tBelow are examples of the correct usage.\n\texample: crunchyroll-cli "that time"\n\texample: crunchyroll-cli "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"\n\n\t-h\tprint this help statement and exit\n\n\t-d\tdownload instead of streaming\n\n\t-s\tshow subtitles in your chosen language (if not specified, no subtitles are shown)\n\t\texample: crunchyroll-cli -s enUS "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"\n\n\t-l\tlist available subtitle languages and exit\n\n\t-e\tplay exact episode (by default, Crunchyroll CLI assumes that the link is the entire series)\n\t\texample: crunchyroll-cli -e "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime/episode-40-the-congress-dances-814679"\n\n\t-m\tspecify menu application to use (if not specified, fzf is used)\n\t\tyou can use any software which can be piped into and out of and used as a menu but it is recommended that you choose between dmenu, rofi and fzf\n\t\texample: crunchyroll-cli -m dmenu "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"\n\n\t-p\tprint a list of the dependencies and exit\n'
         exit 0 ;;
-    d)  # download
-        download=1 ;;
-    s)  # subtitles
-        sub="--slang="$OPTARG"" ;;
-    l)  # list available subtitles
-        printf 'Crunchyroll-cli\n\nAvailable subtitle languages:\narME\ndeDE\nenUS\nesES\nesLA\nfrFR\nitIT\nptBR\nruRU\n' ; exit 0 ;;
-    e)  # exact episode (by default, crunchyroll-cli assumes that the link is the entire series)
-        $swallow mpv "$OPTARG" "$sub" >/dev/null
+    d)  download=1 ;;
+    s)  sub="--slang="$OPTARG"" ;;
+    l)  printf 'Crunchyroll-cli\n\nAvailable subtitle languages:\narME\ndeDE\nenUS\nesES\nesLA\nfrFR\nitIT\nptBR\nruRU\n' ; exit 0 ;;
+    e)  $swallow mpv "$OPTARG" "$sub" >/dev/null
         exit 0 ;;
-    m)  # menu
+    m)
         case "$OPTARG" in
             dmenu)  menu='dmenu -i -l 20' ;;
             rofi)   menu='rofi -dmenu -i -l 20' ;;
-            fzf)    menu='fzf' ;;
             *)      menu="$OPTARG"
         esac ;;
-    *)  echo "error: insert usage here" && exit 0
+    p)  printf 'Crunchyroll CLI\n\nDependencies: mpv, wget, youtube-dl, devour (optional - for window swallowing), a menu application (recommended: dmenu, rofi or fzf)\n'
+        exit 0 ;;
+    *)  printf '\nCrunchyroll CLI\n\nusage: crunchyroll-cli [OPTIONS] "<anime>"\nTry `crunchyroll-cli -h` for more options.\n'
+        exit 0
   esac
 done
 
