@@ -4,12 +4,13 @@ A CLI tool for browsing and playing anime from [Crunchyroll](https://www.crunchy
 
 ## Dependencies
 
-* mpv
-* wget
-* devour (optional - for window swallowing)
-* youtube-dl (optional - for downloading episodes)
-* a menu application (recommended: fzf or dmenu or rofi)
-* streamlink (optional - for premium content)
+* a menu application (recommended: [fzf](https://github.com/junegunn/fzf), [dmenu](http://tools.suckless.org/dmenu/) or [rofi](https://github.com/davatorium/rofi))
+* [mpv](https://mpv.io/)
+* [streamlink](https://streamlink.github.io/)
+* [wget](https://www.gnu.org/software/wget/)
+* [coreutils](https://www.gnu.org/software/coreutils/)
+* [devour](https://github.com/salman-abedin/devour) (optional - for window swallowing)
+* [youtube-dl](https://github.com/ytdl-org/youtube-dl) (optional - for downloading episodes)
 
 ## Installation
 
@@ -39,58 +40,58 @@ Download the script however you wish to, run `chmod +x` on it and then place it 
 ```sh
 Crunchyroll CLI
 
-Dependencies: mpv, wget, devour (optional - for window swallowing), youtube-dl (optional - for downloading episodes), a menu application (recommended: fzf or dmenu or rofi), streamlink (optional
-- for premium content)
-
 usage: crunchyroll-cli [OPTIONS] "<anime>"
 
-        In the <anime> field, you may pass the link to a series or perform a fuzzy search (see `-e` flag for exact episodes).
-        Note that, when performing a search, it is necessary to use apostrophes or quotation marks otherwise you could end up with something like this:
-        `crunchyroll-cli that time` would only search for `time` and not `that time`
+	In the <anime> field, you may pass the link to a series or an episode or perform a fuzzy search.
+	NOTE: when performing a search, it is necessary to use apostrophes or quotation marks otherwise you could end up with something like this:
+	`crunchyroll-cli that time` would only search for `time` and not `that time`.
 
-        Below are examples of the correct usage.
-        example: crunchyroll-cli "that time"
-        example: crunchyroll-cli "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"
+	Below are examples of the correct usage.
+	example: crunchyroll-cli "that time"
+	example: crunchyroll-cli "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"
+	example: crunchyroll-cli "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime/episode-1-the-storm-dragon-veldora-777519"
 
-        Also note that if you are passing an argument into a flag, then order may matter:
-        `crunchyroll-cli -pe "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime/episode-40-the-congress-dances-814679"` would work but
-        `crunchyroll-cli -ep "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime/episode-40-the-congress-dances-814679"` would not work because the link is supposed to be passed into
-        the `-e` flag.
+	Available flags:
 
-        Available flags:
+	-h	print this help statement and exit
 
-        -h      print this help statement and exit
+	-v	print the Crunchyroll CLI version and exit
 
-        -d      download instead of streaming
+	-d	download instead of streaming
 
-        -s      show subtitles in your chosen language (if not specified, no subtitles are shown)
-                example: crunchyroll-cli -s enUS "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"
+	-D	print a list of the dependencies and exit
 
-        -l      list available subtitle languages and exit
+	-s	show subtitles in your chosen language (if not specified, no subtitles are shown)
+		NOTE: due to the functionality of streamlink, you cannot turn off subtitles *when viewing premium content*; if not specified streamlink will use your system locale.
+		example: crunchyroll-cli -s enUS "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"
 
-        -p      play premium content (requires signing into a premium Crunchyroll account - you will be prompted with username and password fields)
-                Note that you cannot download premium content.
+	-S	list available subtitle languages and exit
 
-        -e      play exact episode (by default, Crunchyroll CLI assumes that the link is the entire series)
-                example: crunchyroll-cli -e "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime/episode-1-the-storm-dragon-veldora-777519"
+	-p	play premium content (requires signing into a premium Crunchyroll account - you will be prompted with username and password fields)
+		NOTE: you cannot download premium content.
 
-        -m      specify menu application to use (if not specified, fzf is used)
-                you can use any software which can be piped into and out of and used as a menu but it is recommended that you choose between dmenu, rofi and fzf
-                example: crunchyroll-cli -m dmenu "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"
+	-w	play an anime from your watchlist (you will be prompted to select an anime) - requires at least two anime in your watchlist for Crunchyroll CLI to act as expected
+		example: crunchyroll-cli -w
 
-        -v      print your Crunchyroll CLI version and exit
+	-a	add an anime to your watchlist (and the next episode to watch)
+		NOTE: you can manually edit the watchlist file as well (default location is ~/.local/share/crunchyroll/watchlist.csv)
+		example: crunchyroll-cli -a 40 "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"
+
+	-m	specify menu application to use (if not specified, fzf is used)
+		You can use any software which can be piped into and out of and used as a menu but it is recommended that you choose between dmenu, rofi and fzf.
+		example: crunchyroll-cli -m dmenu "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"
 
 Report bugs at https://github.com/koalagang/crunchyroll-cli/issues
 ```
 
 ## TODO
 
-* watch lists
+* sort seasons
 * view front page
 * choose quality
 * bulk downloading (youtube-dl --batch-file?)
-* read Crunchyroll manga??
 * possibly other anime sites (a bit like youtube-dl's extractors)??
+* add proxy option (should be very easy to do; both streamlink and mpv have proxy flags available)
 
 ## Note on Crunchyroll beta site
 
@@ -99,3 +100,4 @@ Crunchyroll is currently working on a new look for the site. It is currently onl
 ## Similar projects
 
 * [ani-cli](https://github.com/pystardust/ani-cli)
+* [Trackma](https://github.com/z411/trackma)
