@@ -12,7 +12,7 @@ A CLI tool for browsing and playing anime from [Crunchyroll](https://www.crunchy
 * [devour](https://github.com/salman-abedin/devour) (optional - for window swallowing)
 * [youtube-dl](https://github.com/ytdl-org/youtube-dl) (optional - for downloading episodes)
 * perl (for one specific command: `perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si')` - you already have this installed if you have git installed
-* gzip (make dependency) - you *probavbly* already have this installed if you are on GNU/Linux
+* gzip (make dependency) - you *probably* already have this installed if you are on GNU/Linux
 
 ## Installation
 
