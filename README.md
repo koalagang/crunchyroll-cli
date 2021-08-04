@@ -7,10 +7,11 @@ A CLI tool for browsing and playing anime from [Crunchyroll](https://www.crunchy
 * a menu application (recommended: [fzf](https://github.com/junegunn/fzf), [dmenu](http://tools.suckless.org/dmenu/) or [rofi](https://github.com/davatorium/rofi))
 * [mpv](https://mpv.io/)
 * [streamlink](https://streamlink.github.io/)
-* [wget](https://www.gnu.org/software/wget/)
-* [coreutils](https://www.gnu.org/software/coreutils/)
+* [wget](https://www.gnu.org/software/wget/) - you *probably* already have this installed if you are on GNU/Linux
+* [coreutils](https://www.gnu.org/software/coreutils/) - you already have this installed if you are on GNU/Linux
 * [devour](https://github.com/salman-abedin/devour) (optional - for window swallowing)
 * [youtube-dl](https://github.com/ytdl-org/youtube-dl) (optional - for downloading episodes)
+* perl (for one specific command: `perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si')` - you already have this installed if you have git installed
 
 ## Installation
 
