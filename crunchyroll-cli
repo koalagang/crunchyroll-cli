@@ -21,12 +21,13 @@
 # print a usage statement and exit if no argument is passed
 [ -z "$1" ] && printf 'Crunchyroll CLI\n\nusage: crunchyroll-cli [OPTIONS] "<anime>"\nTry `crunchyroll-cli -h` for more options.\n' && exit 0
 final="${*: -1}" # the final argument (fuzzy search or URL) is stored inside a variable
-# file used for watchlist (duh!); see the `-w` flag for usage.
+# File used for watchlist (duh!); see the `-w` flag for usage:
 # Also, feel free to change the filepath if you so wish. It doesn't really matter where the file is located.
 watchlist="$HOME/.local/share/crunchyroll/watchlist.csv"
+completelist="$HOME/.local/share/crunchyroll/completelist.csv" # ditto
 # if devour is installed then use it to swallow the terminal when launching mpv, otherwise just fork mpv from the terminal when playing
 command -v devour >/dev/null && swallow='devour' || swallow='setsid -f'
-[ -n "$menu" ] || menu='fzf' # if no menu is set then set it to be fzf
+menu='fzf --bind ctrl-j:down --bind ctrl-k:up --tac' # set fzf as the default menu
 
 play () {
     chosen="$(cut -d'"' -f4 "/tmp/crunchyroll_episodes.txt" | $menu)"
@@ -39,11 +40,14 @@ play () {
 }
 
 # all the different flags available
-while getopts 'hvd:Ds:Spwa:wm:' OPT; do
+while getopts 'hvld:Ds:Spw:we:u:m:' OPT; do
   case $OPT in
-    h)  printf '\nCrunchyroll CLI\n\nusage: crunchyroll-cli [OPTIONS] "<anime>"\n\n\tIn the <anime> field, you may pass the link to a series or an episode or perform a fuzzy search.\n\tNOTE: when performing a search, it is necessary to use apostrophes or quotation marks otherwise you could end up with something like this:\n\t`crunchyroll-cli that time` would only search for `time` and not `that time`.\n\n\tBelow are examples of the correct usage.\n\texample: crunchyroll-cli "that time"\n\texample: crunchyroll-cli "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"\n\texample: crunchyroll-cli "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime/episode-1-the-storm-dragon-veldora-777519"\n\n\tAvailable flags:\n\n\t-h\tprint this help statement and exit\n\n\t-v\tprint the Crunchyroll CLI version and exit\n\n\t-d\tdownload instead of streaming\n\n\t-D\tprint a list of the dependencies and exit\n\n\t-s\tshow subtitles in your chosen language (if not specified, no subtitles are shown)\n\t\tNOTE: due to the functionality of streamlink, you cannot turn off subtitles *when viewing premium content*; if not specified streamlink will use your system locale.\n\t\texample: crunchyroll-cli -s enUS "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"\n\n\t-S\tlist available subtitle languages and exit\n\n\t-p\tplay premium content (requires signing into a premium Crunchyroll account - you will be prompted with username and password fields)\n\t\tNOTE: you cannot download premium content.\n\n\t-w\tplay an anime from your watchlist (you will be prompted to select an anime); after playing an episode, your watchlist will automatically update so that next time it will play the next episode\n\t\tNOTE: requires at least two anime in your watchlist for Crunchyroll CLI to act as expected.\n\t\texample: crunchyroll-cli -w\n\n\t-a\tadd an anime to your watchlist (and the next episode to watch)\n\t\tNOTE: you can manually edit the watchlist file as well (default location is ~/.local/share/crunchyroll/watchlist.csv)\n\t\texample: crunchyroll-cli -a 40 "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"\n\n\t-m\tspecify menu application to use (if not specified, fzf is used)\n\t\tYou can use any software which can be piped into and out of and used as a menu but it is recommended that you choose between dmenu, rofi and fzf.\n\t\texample: crunchyroll-cli -m dmenu "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"\n\nReport bugs at https://github.com/koalagang/crunchyroll-cli/issues\n'
+    h)  printf '\nCrunchyroll CLI\n\nusage: crunchyroll-cli [OPTIONS] "<anime>"\n\n\tIn the <anime> field, you may pass the link to a series or an episode or perform a fuzzy search.\n\tNOTE: when performing a search, it is necessary to use apostrophes or quotation marks otherwise you could end up with something like this:\n\t`crunchyroll-cli that time` would only search for `time` and not `that time`.\n\n\tBelow are examples of the correct usage.\n\texample: crunchyroll-cli "that time"\n\texample: crunchyroll-cli "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"\n\texample: crunchyroll-cli "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime/episode-1-the-storm-dragon-veldora-777519"\n\n\tAvailable flags:\n\n\t-h\tprint this help statement and exit\n\n\t-v\tprint the Crunchyroll CLI version and exit\n\n\t-l\tprint license info and exit\n\n\t-d\tdownload instead of streaming\n\n\t-D\tprint a list of the dependencies and exit\n\n\t-s\tshow subtitles in your chosen language (if not specified, no subtitles are shown)\n\t\tNOTE: due to the functionality of streamlink, you cannot turn off subtitles *when viewing premium content*; if not specified streamlink will use your system locale.\n\t\texample: crunchyroll-cli -s enUS "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"'
+        printf '\n\n\t-S\tlist available subtitle languages and exit\n\n\t-p\tplay premium content (requires signing into a premium Crunchyroll account - you will be prompted with username and password fields)\n\t\tNOTE: you cannot download premium content.\n\n\t-w\tplay an anime from your watchlist (you will be prompted to select an anime); after playing an episode, your watchlist will automatically update so that next time it will play the next episode\n\t\tNOTE: requires at least two anime in your watchlist for Crunchyroll CLI to act as expected.\n\t\texample: crunchyroll-cli -w\n\n\t-a\tadd an anime to your watchlist (and the next episode to watch followed by the total number of episodes)\n\t\tNOTE: if you are unsure how many episodes are left then set the number to "NULL".\n\t\texample: crunchyroll-cli -a 11,13 "https://www.crunchyroll.com/higehiro-after-being-rejected-i-shaved-and-took-in-a-high-school-runaway"\n\t\texample: crunchyroll-cli -a 25,NULL "https://www.crunchyroll.com/one-piece"\n\n\t-e\tmanually your watchlist or completelist (uses "$EDITOR")\n\t\tYou can use the full word (i.e. "watchlist" or "completelist") or you can use the first letter (i.e. "w" or "c").\n\t\texample: crunchyroll-cli -e watchlist\n\t\texample: crunchyroll-cli -e c\n\n\t-u\tdo a fuzzy search and get the URL of an anime\n\t\texample: crunchyroll -u "that time i got reincarnated as a slime"\n\t\toutput: https://www.crunchyroll.com/en-gb/that-time-i-got-reincarnated-as-a-slime\n\n\t-m\tspecify menu application to use (if not specified, fzf is used)\n\t\tYou can use any software which can be piped into and out of and used as a menu but it is recommended that you choose between dmenu, rofi and fzf.\n\t\texample: crunchyroll-cli -m dmenu "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"\n\nReport bugs at https://github.com/koalagang/crunchyroll-cli/issues\n'
         exit 0 ;;
-    v)  echo "Crunchyroll CLI version: v1.4"
+    v)  echo "Crunchyroll CLI version: v1.5"
+        exit 0 ;;
+    l)  printf '\ncrunchyroll-cli Copyright (C) 2021 koalagang. License GPLv3: This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions;\nfor more information, please refer to <https://github.com/koalagang/crunchyroll-cli/blob/main/LICENSE>.\n'
         exit 0 ;;
     d)  [ -n "$premium" ] && \
         printf "error: you can't download premium content\n\nRemove the '-d' flag to be able to stream premium content.\nIf you wish to download free content then remove the '-p' flag.\n" && exit 0
@@ -59,8 +63,9 @@ while getopts 'hvd:Ds:Spwa:wm:' OPT; do
         printf "error: you can't download premium content\n\nRemove the '-d' flag to be able to stream premium content.\nIf you wish to download free content then remove the '-p' flag.\n" && exit 0
         premium=1 ;;
     w)  anime="$(cut -d',' -f1 "$watchlist" | $menu)"
-        url="$(grep "$anime" "$watchlist" | cut -d',' -f2)"
         episode="$(grep "$anime" "$watchlist" | cut -d',' -f3)"
+        url="$(grep "$anime" "$watchlist" | cut -d',' -f2)"
+        last_ep="$(grep "$anime" "$watchlist" | cut -d',' -f4)"
         wget -qO- robots=off -U mozilla --no-dns-cache --no-cache "$url" | grep -w -E "href.*Episode $episode" | tail -n 1 > "/tmp/crunchyroll_episodes.txt"
         ep_url="https://crunchyroll.com$(grep -w "Episode $episode" "/tmp/crunchyroll_episodes.txt" | cut -d'"' -f2 | tail -n 1)"
         [ -n "$download" ] && youtube-dl "$ep_url" && echo "Episode successfully downloaded." && exit 0 # download episode and exit if `-d` is passed
@@ -70,18 +75,33 @@ while getopts 'hvd:Ds:Spwa:wm:' OPT; do
         # change the next episode to one later (e.g. if the above playing episode is episode 2, then the watchlist will be changed so that the next episode is episode 3)
         sed -i "/$anime/d" $watchlist
         episode="$((episode + 1))"
-        echo "$anime,$url,$episode" >> "$watchlist"
+        [ "$last_ep" != 'NULL' ] && [[ "$episode" -gt "$last_ep" ]] && echo "$anime,$url" >> "$completelist" && exit 0
+        echo "$anime,$url,$episode,$last_ep" >> "$watchlist"
         exit 0 ;;
     a)  [ -d "$watchlist" ] && mkdir "$watchlist" # make the watchlist directory if it does not exist
         url="$final"
-        # the perl command here finds the title of the current tab
+        # the perl command here finds the title of the URL's page
         anime="$(wget -qO- robots=off -U mozilla --no-dns-cache --no-cache "$url" | perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si' | recode html.. | iconv -c -f utf-8 -t ascii | sed 's/ - Watch on Crunchyroll//')"
         episode="$OPTARG"
         echo "$anime,$url,$episode" >> "$watchlist"
         exit 0 ;;
+    e)  case "$OPTARG" in
+            'watchlist')    $EDITOR "$watchlist"    ;;
+            'completelist') $EDITOR "$completelist" ;;
+            'w')            $EDITOR "$watchlist"    ;;
+            'c')            $EDITOR "$completelist" ;;
+            *) printf "Crunchyroll CLI\n\nerror: no such file"
+        esac
+        exit 0 ;;
+    u)  [[ "$OPTARG" =~ 'https://' ]] && echo "there is nothing to do" && exit 0
+        [[ "$OPTARG" =~ 'https://' ]] || ( wget -qO- robots=off -U mozilla --no-dns-cache --no-cache "https://www.crunchyroll.com/search?from=&q=$OPTARG" | grep '<span class="type">' \
+            | sed -e 's/<span class="type">//g' -e 's/[ \t]*//' > "/tmp/crunchyroll_episodes.txt" && cat "/tmp/crunchyroll_episodes.txt" | $menu | awk '{$1=$1};1' | sed 's/ /-/g' \
+            | tr '[:upper:]' '[:lower:]'  | xargs -I{} echo 'https://crunchyroll.com/{}' )
+        exit 0 ;;
     m)  case "$OPTARG" in
             dmenu)  menu='dmenu -i -l 20' ;;
             rofi)   menu='rofi -dmenu -i -l 20' ;;
+            fzf)    menu='fzf --bind ctrl-j:down ctrl-k:up --tac' ;;
             *)      menu="$OPTARG"
         esac ;;
     *)  printf '\nCrunchyroll CLI\n\nusage: crunchyroll-cli [OPTIONS] "<anime>"\nTry `crunchyroll-cli -h` for more options.\n'
