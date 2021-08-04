@@ -30,14 +30,17 @@ First, if you do not already have it installed on your system, install gzip (it 
 ```sh
 $ git clone "https://github.com/koalagang/crunchyroll-cli.git" && sh -c 'cd crunchyroll-cli/ && make'
 ```
-> Remember to do just `make` and not `make install` so that the manpage also gets installed
-> To update, run `git pull` in your local Crunchyroll CLI repository and reinstall with `make`.
-> To uninstall, run `make uninstall`.
+> Remember to do just `make` and not `make install` so that the manpage also gets installed. 
+> To update, run `git pull` in your local Crunchyroll CLI repository and reinstall with `make`. 
+> To uninstall, run `make uninstall`. 
 
 ### Manual
 
 Download the script however you wish to, run `chmod +x` on it and then place it anywhere in your `$PATH`.
-> You can easily download it to the current directory by doing `wget "https://raw.githubusercontent.com/koalagang/crunchyroll-cli/main/crunchyroll-cli"`
+You can easily download it to the current directory by doing
+```sh
+$ wget "https://raw.githubusercontent.com/koalagang/crunchyroll-cli/main/crunchyroll-cli"
+```
 
 ## Usage
 
