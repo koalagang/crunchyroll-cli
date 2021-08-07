@@ -6,7 +6,6 @@ Crunchyroll CLI is an easy to use commandline tool, written in bash, which allow
 
 ## Dependencies
 
-* a menu application (recommended: [dmenu](http://tools.suckless.org/dmenu/) or [rofi](https://github.com/davatorium/rofi))
 * [mpv](https://mpv.io/)
 * [fzf](https://github.com/koalagang/crunchyroll-cli)
 * [streamlink](https://streamlink.github.io/)
@@ -15,6 +14,7 @@ Crunchyroll CLI is an easy to use commandline tool, written in bash, which allow
 * [devour](https://github.com/salman-abedin/devour) (optional - for window swallowing)
 * [youtube-dl](https://github.com/ytdl-org/youtube-dl) (optional - for downloading episodes)
 * [sfeed](https://codemadness.org/sfeed-simple-feed-parser.html) (optional - for viewing Crunchyroll news)
+* a menu application (optional - recommended: [dmenu](http://tools.suckless.org/dmenu/) or [rofi](https://github.com/davatorium/rofi))
 * perl (for one specific command: `perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si'`) - you already have this installed if you have git installed
 * gzip (make dependency) - you *probably* already have this installed if you are on GNU/Linux
 
