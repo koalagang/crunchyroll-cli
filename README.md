@@ -6,8 +6,9 @@ Crunchyroll CLI is an easy to use commandline tool, written in bash, which allow
 
 ## Dependencies
 
-* a menu application (recommended: [fzf](https://github.com/junegunn/fzf), [dmenu](http://tools.suckless.org/dmenu/) or [rofi](https://github.com/davatorium/rofi))
+* a menu application (recommended: [dmenu](http://tools.suckless.org/dmenu/) or [rofi](https://github.com/davatorium/rofi))
 * [mpv](https://mpv.io/)
+* [fzf](https://github.com/koalagang/crunchyroll-cli)
 * [streamlink](https://streamlink.github.io/)
 * [wget](https://www.gnu.org/software/wget/) - you *probably* already have this installed if you are on GNU/Linux
 * [coreutils](https://www.gnu.org/software/coreutils/) - you already have this installed if you are on GNU/Linux
