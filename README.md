@@ -2,7 +2,7 @@
 
 A CLI tool for browsing and playing anime from [Crunchyroll](https://www.crunchyroll.com).
 
-Crunchyroll CLI is an easy to use commandline tool, written in bash, which allows you to browse and play anime from the website - Crunchyroll (https://crunchyroll.com) - utilising the mpv media player. It aims to provide a feature rich experience for Crunchyroll whilst being incredibly lightweight.
+Crunchyroll CLI is an easy to use commandline tool, written in bash, which allows you to browse and play anime from the website - Crunchyroll - utilising the mpv media player. It aims to provide a feature rich experience for Crunchyroll whilst being incredibly lightweight.
 
 ## Dependencies
 
@@ -59,7 +59,6 @@ $ man crunchyroll-cli # only works if you installed using Make
 ## TODO
 
 * sort seasons
-* view front page
 * choose quality
 * bulk downloading (youtube-dl --batch-file?)
 * possibly other anime sites (a bit like youtube-dl's extractors)??
