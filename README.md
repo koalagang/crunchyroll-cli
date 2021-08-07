@@ -2,6 +2,8 @@
 
 A CLI tool for browsing and playing anime from [Crunchyroll](https://www.crunchyroll.com).
 
+Crunchyroll CLI is an easy to use commandline tool, written in bash, which allows you to browse and play anime from the website - Crunchyroll (https://crunchyroll.com) - utilising the mpv media player. It aims to provide a feature rich experience for Crunchyroll whilst being incredibly lightweight.
+
 ## Dependencies
 
 * a menu application (recommended: [fzf](https://github.com/junegunn/fzf), [dmenu](http://tools.suckless.org/dmenu/) or [rofi](https://github.com/davatorium/rofi))
@@ -11,12 +13,13 @@ A CLI tool for browsing and playing anime from [Crunchyroll](https://www.crunchy
 * [coreutils](https://www.gnu.org/software/coreutils/) - you already have this installed if you are on GNU/Linux
 * [devour](https://github.com/salman-abedin/devour) (optional - for window swallowing)
 * [youtube-dl](https://github.com/ytdl-org/youtube-dl) (optional - for downloading episodes)
-* perl (for one specific command: `perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si')` - you already have this installed if you have git installed
+* [sfeed](https://codemadness.org/sfeed-simple-feed-parser.html) (optional - for viewing Crunchyroll news)
+* perl (for one specific command: `perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si'`) - you already have this installed if you have git installed
 * gzip (make dependency) - you *probably* already have this installed if you are on GNU/Linux
 
 ## Installation
 
-Before using any of the following installation methods, make sure to download the above listed dependencies with your package manager. 'Make' is the recommended option because you can easily update by doing a simple `git pull` on your local repository and also it installs the manpage. For Arch [based] users, I may also consider submiting Crunchyroll CLI to the [AUR](https://aur.archlinux.org/) at some point.
+Before using any of the following installation methods, make sure to download the above listed dependencies with your package manager. 'Make' is the recommended option because you can easily update by doing a simple `git pull` on your local repository and also it installs the manpage.
 
 ### cURL
 
