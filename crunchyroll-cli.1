@@ -1,12 +1,12 @@
 .IX Title "CRUNCHYROLL-CLI 1"
-.TH CRUNCHYROLL-CLI 1 "2021.08.07" "Crunchyroll CLI 1.7" "Crunchyroll CLI"
+.TH CRUNCHYROLL-CLI 1 "2021.08.07" "Crunchyroll CLI 1.8" "Crunchyroll CLI"
 .hy
 .SH NAME
 .PP
 Crunchyroll CLI - browse and play anime from Crunchyroll
 .SH SYNOPSIS
 .PP
-crunchyroll-cli [\f[B]OPTIONS\f[R]] \[lq]<anime>\[rq]
+crunchyroll-cli [\f[B]OPTIONS\f[R]] \[lq]<query>\[rq]
 .SH DESCRIPTION
 .PP
 Crunchyroll CLI is an easy to use commandline tool, written in
@@ -16,7 +16,7 @@ It aims to provide a feature rich experience for Crunchyroll whilst being
 incredibly lightweight.
 .SH SEARCH FIELD
 .PP
-In the <anime> field, you may pass the link to a series or an episode or perform
+In the <query> field, you may pass the link to a series or an episode or perform
 a fuzzy search.
 NOTE: when performing a search, it is necessary to use apostrophes or
 quotation marks otherwise you could end up with something like this:
@@ -99,9 +99,7 @@ fzf.
 \[lq]https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime\[rq]
 .SH BUGS
 .IP \[bu] 2
-If you cancel Crunchyroll CLI with ctrl-c while in the middle of
-selecting an anime with fzf, instead of stopping, it will select the
-first option.
+Currently there are no known bugs.
 .PP
 Report bugs at https://github.com/koalagang/crunchyroll-cli/issues
 .SH COPYRIGHT

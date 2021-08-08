@@ -11,7 +11,7 @@ Crunchyroll CLI is an easy to use commandline tool, written in bash, which allow
 * [streamlink](https://streamlink.github.io/)
 * [wget](https://www.gnu.org/software/wget/) - you *probably* already have this installed if you are on GNU/Linux
 * [coreutils](https://www.gnu.org/software/coreutils/) - you already have this installed if you are on GNU/Linux
-* [devour](https://github.com/salman-abedin/devour) (optional - for window swallowing)
+* [devour](https://github.com/salman-abedin/devour) (optional - for window swallowing); NOTE: if the `-p` (premium) flag is passed then window swallowing is not used
 * [youtube-dl](https://github.com/ytdl-org/youtube-dl) (optional - for downloading episodes)
 * [sfeed](https://codemadness.org/sfeed-simple-feed-parser.html) (optional - for viewing Crunchyroll news)
 * a menu application (optional - recommended: [dmenu](http://tools.suckless.org/dmenu/) or [rofi](https://github.com/davatorium/rofi))
@@ -40,15 +40,15 @@ $ git clone "https://github.com/koalagang/crunchyroll-cli.git" && sh -c 'cd crun
 
 ### Manual
 
-Download the script however you wish to, run `chmod +x` on it and then place it anywhere in your `$PATH`.
-You can easily download it to the current directory by doing
+Download the script, mark it as executable and then place it anywhere in your `$PATH`.
+You can easily do this by navigating to the directory you wish to install it to and then running:
 ```sh
-$ wget "https://raw.githubusercontent.com/koalagang/crunchyroll-cli/main/crunchyroll-cli"
+$ wget "https://raw.githubusercontent.com/koalagang/crunchyroll-cli/main/crunchyroll-cli" && chmod +x crunchyroll-cli
 ```
 
 ## Usage
 
-For usage information, input
+For usage information, input:
 ```sh
 $ crunchyroll-cli -h
 ```
@@ -56,6 +56,8 @@ or
 ```sh
 $ man crunchyroll-cli # only works if you installed using Make
 ```
+or
+read `usage.txt` from this repo.
 
 ## TODO
 
