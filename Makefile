@@ -13,7 +13,7 @@ install:
 man:
 	sudo rm /usr/local/man/man1/crunchyroll-cli.1 -f
 	sudo rm /usr/local/man/man1/crunchyroll-cli.1.gz -f
-	sudo cp crunchyroll-cli.1 /usr/local/man/man1
+	sudo cp docs/crunchyroll-cli.1 /usr/local/man/man1
 	sudo gzip /usr/local/man/man1/crunchyroll-cli.1
 	sudo mandb -f /usr/local/man/man1/crunchyroll-cli.1
 

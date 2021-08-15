@@ -1,6 +1,7 @@
 # Crunchyroll CLI
 
-A CLI tool for browsing and playing anime from [Crunchyroll](https://www.crunchyroll.com).
+A CLI tool for browsing and playing anime from [Crunchyroll](https://www.crunchyroll.com).\
+It also partially supports GoGoAnime.vc.
 
 Crunchyroll CLI is an easy to use commandline tool, written in bash, which allows you to browse and play anime from the website - Crunchyroll - utilising the mpv media player. It aims to provide a feature rich experience for Crunchyroll whilst being incredibly lightweight.
 
@@ -15,7 +16,7 @@ Crunchyroll CLI is an easy to use commandline tool, written in bash, which allow
 * [youtube-dl](https://github.com/ytdl-org/youtube-dl) (optional - for downloading episodes)
 * [sfeed](https://codemadness.org/sfeed-simple-feed-parser.html) (optional - for viewing Crunchyroll news)
 * a menu application (optional - recommended: [dmenu](http://tools.suckless.org/dmenu/) or [rofi](https://github.com/davatorium/rofi))
-* perl (for one specific command: `perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si'`) - you already have this installed if you have git installed
+* perl - you already have this installed if you have git installed
 * gzip (make dependency) - you *probably* already have this installed if you are on GNU/Linux
 
 ## Installation
@@ -57,19 +58,27 @@ or
 $ man crunchyroll-cli # only works if you installed using Make
 ```
 or
-read `usage.txt` from this repo.
+read `usage.txt` from the `docs` in this repository.
 
 ## TODO
 
 * sort seasons
 * choose quality
-* bulk downloading (youtube-dl --batch-file?)
-* possibly other anime sites (a bit like youtube-dl's extractors)??
+* bulk downloading
 * add proxy option (should be very easy to do; both streamlink and mpv have proxy flags available)
 
 ## Note on Crunchyroll beta site
 
-Crunchyroll is currently working on a new look for the site. It is currently only in beta but once it leaves the beta and the website is updated from its legacy version, Crunchyroll CLI may break due to changes in links and page sources. I will try to fix it once this happens but it won't necessarily be immediate if my life is very busy at the time of this happening.
+Crunchyroll is currently working on a new look for the site. It is currently only in beta but once it leaves the beta and the website is updated from its legacy version, Crunchyroll CLI may break due to changes in links and page sources. I will try to fix it once this happens but it won't necessarily be immediate if my life is very busy at the time of this happening.\
+In the meantime, you can use the `-G` flag which allows you to stream from GoGoAnime.vc. See the `usage` section for more info.
+
+## License
+
+crunchyroll-cli Copyright (C) 2021 koalagang; This program comes with ABSOLUTELY NO WARRANTY;\
+This is free software, and you are welcome to redistribute it under certain conditions.\
+For more details please refer to https://github.com/koalagang/crunchyroll-cli/blob/main/LICENSE.
+
+Crunchyroll CLI also uses parts of other libre software. For details regarding that, see `LICENSE-NOTICE.md` from the `docs` in this repository.
 
 ## Similar projects
 
