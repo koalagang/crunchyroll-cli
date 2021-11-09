@@ -1,6 +1,5 @@
 # External source code use
-In the interest of transparency, if at any point I use source code from other scripts which are under a copyleft license, I will leave a notice here detailing what part of what software I took and if I modified it in anyway.\
-I will also leave a notice as a comment in Crunchyroll CLI's source.
+If at any point I use source code from other scripts which are under a copyleft license, I will leave a notice here detailing what part of what software I took and if I modified it in anyway.
 
 ## ani-cli
 

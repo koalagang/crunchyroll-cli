@@ -101,7 +101,8 @@ fzf.
 -G query GoGoAnime.vc instead of Crunchyroll (does not support URLs, only fuzzy searches)
 .SH BUGS
 .IP \[bu] 2
-Currently there are no known bugs.
+This isn't really a bug in crunchyroll-cli but in streamlink's crunchyroll plugin:
+mpv will close before the episode finishes (last two minutes or so). Fortunately this bug is only in effect when using streamlink (i.e. when viewing premium content) because crunchyroll-cli does not use streamlink for non-premium content.
 .PP
 Report bugs at https://github.com/koalagang/crunchyroll-cli/issues
 .SH COPYRIGHT
