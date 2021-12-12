@@ -5,6 +5,19 @@ It also partially supports GoGoAnime.vc.
 
 Crunchyroll CLI is an easy to use commandline tool, written in bash, which allows you to browse and play anime from the website - Crunchyroll - utilising the mpv media player. It aims to provide a feature rich experience for Crunchyroll whilst being incredibly lightweight.
 
+<!-- DO NOT EDIT THIS SECTION, INSTEAD RE-RUN dt TO UPDATE -->
+- [Dependencies](#dependencies)
+- [Installation](#installation)
+	- [cURL](#curl)
+	- [Make](#make)
+	- [Manual](#manual)
+- [Usage](#usage)
+- [TODO](#todo)
+- [Note on Crunchyroll beta site](#note-on-crunchyroll-beta-site)
+- [License](#license)
+- [Similar projects](#similar-projects)
+<!-- END dt generated TOC please keep comment here to allow auto update -->
+
 ## Dependencies
 
 * [mpv](https://mpv.io/)
@@ -74,6 +87,8 @@ read `usage.txt` from the `docs` folder in this repository.
 * bulk downloading
 * watch history
 * proxy option (should be very easy to do; both streamlink and mpv have proxy flags available)
+* self-updating (i.e. does not require a package manager to receive update)
+* reduce required dependencies (there are certain dependencies which don't necessarily need to be required; for example, I could create a built-in menu rather than making fzf a strict dependency - but I could still keep it as an optional dependency, like dmenu and rofi)
 
 ## Note on Crunchyroll beta site
 
