@@ -42,7 +42,7 @@ To copy any of the commands shown below to your clipboard, simply hover your cur
 ### cURL
 
 ```sh
-sudo curl -sL "https://raw.githubusercontent.com/koalagang/crunchyroll-cli/main/crunchyroll-cli" -o /usr/bin/crunchyroll-cli && sudo chmod +x /usr/bin/crunchyroll-cli
+sudo curl -sL "https://raw.githubusercontent.com/koalagang/crunchyroll-cli/main/crunchyroll-cli" -o /usr/local/bin/crunchyroll-cli && sudo chmod +x /usr/local/bin/crunchyroll-cli
 ```
 > To uninstall, just run `sudo rm /usr/bin/crunchyroll-cli`
 
@@ -50,7 +50,7 @@ sudo curl -sL "https://raw.githubusercontent.com/koalagang/crunchyroll-cli/main/
 First, if you do not already have it installed on your system, install gzip (it is a make dependency) with your distribution's package manager; it is in pretty much every distro's official repositories.
 
 ```sh
-git clone "https://github.com/koalagang/crunchyroll-cli.git && sh -c 'cd crunchyroll-cli/ && make'
+git clone https://github.com/koalagang/crunchyroll-cli.git && make -C crunchyroll-cli
 ```
 > Remember to do just `make` and not `make install` so that the manpage also gets installed.\
 > To update, run `git pull` in your local Crunchyroll CLI repository and reinstall with `make`.\
@@ -61,7 +61,7 @@ git clone "https://github.com/koalagang/crunchyroll-cli.git && sh -c 'cd crunchy
 Download the script, mark it as executable and then place it anywhere in your `$PATH`.
 You can easily do this by navigating to the directory you wish to install it to and then running:
 ```sh
-wget "https://raw.githubusercontent.com/koalagang/crunchyroll-cli/main/crunchyroll-cli" && chmod +x crunchyroll-cli
+wget 'https://raw.githubusercontent.com/koalagang/crunchyroll-cli/main/crunchyroll-cli' && chmod +x crunchyroll-cli
 ```
 
 ## Usage
