@@ -89,6 +89,9 @@ read `usage.txt` from the `docs` folder in this repository.
 * proxy option (should be very easy to do; both streamlink and mpv have proxy flags available)
 * self-updating (i.e. does not require a package manager to receive update)
 * reduce required dependencies (there are certain dependencies which don't necessarily need to be required; for example, I could create a built-in menu rather than making fzf a strict dependency - but I could still keep it as an optional dependency, like dmenu and rofi)
+* filter out characters - '(person)' - from the search function
+* add suport for beta links (e.g. `https://beta.crunchyroll.com/watch/GJWU2X420/judgment`)
+* expand GoGoAnime support
 
 ## Note on Crunchyroll beta site
 

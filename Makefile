@@ -7,19 +7,22 @@ all: install man
 cruncyroll-cli:
 
 install:
-	sudo mkdir -p ${DESTDIR}${PREFIX}/local
-	sudo cp crunchyroll-cli ${DESTDIR}${PREFIX}/local/crunchyroll-cli
+	cp crunchyroll-cli ${PREFIX}/local/bin
 
 man:
-	sudo rm /usr/local/man/man1/crunchyroll-cli.1 -f
-	sudo rm /usr/local/man/man1/crunchyroll-cli.1.gz -f
-	sudo cp docs/crunchyroll-cli.1 /usr/local/man/man1
-	sudo gzip /usr/local/man/man1/crunchyroll-cli.1
-	sudo mandb -f /usr/local/man/man1/crunchyroll-cli.1
+	rm ${PREFIX}/local/man/man1/crunchyroll-cli.1 -f
+	rm ${PREFIX}/local/man/man1/crunchyroll-cli.1.gz -f
+	cp docs/crunchyroll-cli.1 ${PREFIX}/local/man/man1
+	gzip ${PREFIX}/local/man/man1/crunchyroll-cli.1
+	mandb -f ${PREFIX}/local/man/man1/crunchyroll-cli.1
+
+help:
+	mkdir -p ${PREFIX}/share/crunchyroll-cli
+	cp docs/usage.txt ${PREFIX}/share/crunchyroll-cli
 
 uninstall:
-	sudo rm -f ${DESTDIR}${PREFIX}/local/crunchyroll-cli
-	sudo rm /usr/local/man/man1/crunchyroll-cli.1 -f
-	sudo rm /usr/local/man/man1/crunchyroll-cli.1.gz -f
+	rm -f ${DESTDIR}${PREFIX}/local/crunchyroll-cli
+	rm ${PREFIX}/local/man/man1/crunchyroll-cli.1 -f
+	rm ${PREFIX}/local/man/man1/crunchyroll-cli.1.gz -f
 
 .PHONY: all install uninstall man
