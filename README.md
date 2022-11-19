@@ -34,7 +34,8 @@ Crunchyroll CLI is an easy to use commandline tool, written in bash, which allow
 
 ## Installation
 
-Before using any of the following installation methods, make sure to download the above listed dependencies with your package manager. 'Make' is the recommended option because you can easily update by doing a simple `git pull` on your local repository and also it installs the manpage.
+Before using any of the following installation methods, make sure to download the above listed dependencies with your package manager. 'Make' is the recommended option because you can easily update by doing a simple \
+`git pull` on your local repository and also it installs the manpage.
 
 To copy any of the commands shown below to your clipboard, simply hover your cursor over the code block and a clipboard icon will appear to the right-most side - click that and the command will be copied to your clipboard. Now you can just paste that into your terminal emulator with ctrl+shift+v.\
 *Easy as pie.* 😋
@@ -50,11 +51,10 @@ sudo curl -sL "https://raw.githubusercontent.com/koalagang/crunchyroll-cli/main/
 First, if you do not already have it installed on your system, install gzip (it is a make dependency) with your distribution's package manager; it is in pretty much every distro's official repositories.
 
 ```sh
-git clone https://github.com/koalagang/crunchyroll-cli.git && make -C crunchyroll-cli
+git clone https://github.com/koalagang/crunchyroll-cli.git && sudo make -C crunchyroll-cli
 ```
-> Remember to do just `make` and not `make install` so that the manpage also gets installed.\
-> To update, run `git pull` in your local Crunchyroll CLI repository and reinstall with `make`.\
-> To uninstall, run `make uninstall`. 
+> To update, run `git pull` in your local Crunchyroll CLI repository and reinstall with `sudo make`.\
+> To uninstall, run `sudo make uninstall`. 
 
 ### Manual
 
@@ -95,7 +95,8 @@ read `usage.txt` from the `docs` folder in this repository.
 
 ## Note on Crunchyroll beta site
 
-Crunchyroll is currently working on a new look for the site. It is currently only in beta but once it leaves the beta and the website is updated from its legacy version, Crunchyroll CLI is likely to break due to changes in links and page sources. I will try to fix it when this happens but it won't necessarily be immediate if my life is very busy at the time of this happening.\
+~~Crunchyroll is currently working on a new look for the site. It is in beta but once it leaves the beta and the website is updated from its legacy version, Crunchyroll CLI is likely to break due to changes in links and page sources. I will try to fix it when this happens but it won't necessarily be immediate if my life is very busy at the time of this happening.~~\
+The new site has left beta. I'll fix crunchyroll-cli at some point in the (likely distant) future.\
 In the meantime, you can use the `-G` flag which allows you to stream from GoGoAnime.vc. See the [Usage](#usage) for more info.
 
 ## License
