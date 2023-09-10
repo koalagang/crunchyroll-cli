@@ -10,7 +10,9 @@ Though in reality it has basically been deprecated since #e20c0c7, I have decide
 
 In all honesty, it has always been a bit of a hack but I enjoyed working on it, nonetheless, and it taught me a lot about bash and UNIX shell in general.
 I may consider working on something similar to crunchyroll-cli again at some point in the future but I'd like to plan out something that makes more sense, rather than working on an ugly bash script that does weird things like scraping websites with wget.
-For anyone wanting to find a replacement, I'd caution against forking it as it's just a messy script and you'd be better off starting from scratch or working on another project, like [ani-cli](https://github.com/pystardust/ani-cli).
+For anyone wanting to find a replacement, though, I'd caution against forking it as it's just a messy script and you'd be better off starting from scratch or working on another project, like [ani-cli](https://github.com/pystardust/ani-cli).
+
+To the small number (we're talking like 8 stargazers) of people who did enjoy crunchyroll-cli, thank you.
 
 # Crunchyroll CLI
 
