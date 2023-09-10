@@ -1,3 +1,17 @@
+# Deprecated
+To the few crunchyroll-cli stargazers out there:
+
+Though in reality it has basically been deprecated since #e20c0c7, I have decided to officially deprecate crunchyroll-cli and to archive the repository for several reasons:
+- I have other projects I'm more interested in working on -- both in terms of free and open-source software to release on GitHub and other parts of my life
+- Crunchyroll-cli has been broken for a while now after Crunchyroll's new site left beta
+- I haven't really worked on the tool for a couple years and have become less familiar with its small but messy codebase
+- Crunchyroll doesn't have Japanese subs (it only has subs for a small handful of European languages) so I'm likely going to be finding a different way of watching anime
+- Crunchyroll now requires premium for most stuff
+
+In all honesty, it has always been a bit of a hack but I enjoyed working on it, nonetheless, and it taught me a lot about bash and UNIX shell in general.
+I may consider working on something similar to crunchyroll-cli again at some point in the future but I'd like to plan out something that makes more sense, rather than working on an ugly bash script that does weird things like scraping websites with wget.
+For anyone wanting to find a replacement, I'd caution against forking it as it's just a messy script and you'd be better off starting from scratch or working on another project, like [ani-cli](https://github.com/pystardust/ani-cli).
+
 # Crunchyroll CLI
 
 A CLI tool for browsing and playing anime from [Crunchyroll](https://www.crunchyroll.com).\
@@ -96,8 +110,9 @@ read `usage.txt` from the `docs` folder in this repository.
 ## Note on Crunchyroll beta site
 
 ~~Crunchyroll is currently working on a new look for the site. It is in beta but once it leaves the beta and the website is updated from its legacy version, Crunchyroll CLI is likely to break due to changes in links and page sources. I will try to fix it when this happens but it won't necessarily be immediate if my life is very busy at the time of this happening.~~\
-The new site has left beta. I'll fix crunchyroll-cli at some point in the (likely distant) future.\
-In the meantime, you can use the `-G` flag which allows you to stream from GoGoAnime.vc. See the [Usage](#usage) for more info.
+~~The new site has left beta. I'll fix crunchyroll-cli at some point in the (likely distant) future.~~\
+~~In the meantime, you can use the `-G` flag which allows you to stream from GoGoAnime.vc. See the [Usage](#usage) for more info.~~
+See deprecation notice.
 
 ## License
 
